@@ -1,0 +1,23 @@
+[package]
+name = "svc-books"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lib]
+name = "svc_books"
+path = "src/lib.rs"
+
+[dependencies]
+master-common = { workspace = true }
+svc-countries = { path = "../countries" }
+actix-web = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = { workspace = true }
+once_cell = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+utoipa = { workspace = true }

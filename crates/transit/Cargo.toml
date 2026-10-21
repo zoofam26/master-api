@@ -1,0 +1,24 @@
+[package]
+name = "svc-transit"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lib]
+name = "svc_transit"
+path = "src/lib.rs"
+
+[dependencies]
+master-common = { workspace = true }
+actix-web = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = { workspace = true }
+chrono-tz = { workspace = true }
+once_cell = { workspace = true }
+zip = { workspace = true }
+csv = { workspace = true }
+tracing = { workspace = true }
+utoipa = { workspace = true }

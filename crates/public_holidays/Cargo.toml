@@ -1,0 +1,22 @@
+[package]
+name = "svc-public-holidays"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lib]
+name = "svc_public_holidays"
+path = "src/lib.rs"
+
+[dependencies]
+master-common = { workspace = true }
+actix-web = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = { workspace = true }
+once_cell = { workspace = true }
+futures = { workspace = true }
+tracing = { workspace = true }
+utoipa = { workspace = true }

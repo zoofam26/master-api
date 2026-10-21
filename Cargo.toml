@@ -1,0 +1,53 @@
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+
+[workspace.package]
+version = "1.0.0"
+edition = "2021"
+authors = ["zoofam26"]
+license = "MIT"
+repository = "https://github.com/zoofam26/master-api"
+
+[workspace.dependencies]
+# Core
+actix-web = "4"
+actix-cors = "0.7"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+chrono = { version = "0.4", features = ["serde"] }
+once_cell = "1"
+thiserror = "2"
+dotenvy = "0.15"
+futures = "0.3"
+rand = "0.8"
+
+# HTTP client (rustls -> no system openssl needed)
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls", "gzip"] }
+
+# Archives / CSV for GeoNames & GTFS feeds
+zip = { version = "2", default-features = false, features = ["deflate"] }
+csv = "1"
+
+# Caching + rate limiting + observability
+moka = { version = "0.12", features = ["future"] }
+actix-governor = "0.7"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+
+# OpenAPI
+utoipa = { version = "5", features = ["chrono"] }
+sha1 = "0.10"
+regex = "1"
+chrono-tz = "0.9"
+unicode-normalization = "0.1"
+
+# Internal crates
+master-common = { path = "crates/common" }
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+strip = true

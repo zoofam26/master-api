@@ -1,0 +1,40 @@
+[package]
+name = "master-api"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Unified Rust/Actix-Web backend aggregating all eleven microservice APIs"
+
+[lib]
+name = "master_api"
+path = "src/lib.rs"
+
+[[bin]]
+name = "master-api"
+path = "src/main.rs"
+
+[dependencies]
+master-common = { workspace = true }
+svc-youtube = { path = "../youtube" }
+svc-books = { path = "../books" }
+svc-countries = { path = "../countries" }
+svc-currency = { path = "../currency" }
+svc-earthquake = { path = "../earthquake" }
+svc-ip-geolocation = { path = "../ip_geolocation" }
+svc-postal-code = { path = "../postal_code" }
+svc-public-holidays = { path = "../public_holidays" }
+svc-transit = { path = "../transit" }
+svc-university = { path = "../university" }
+svc-weather = { path = "../weather" }
+actix-web = { workspace = true }
+actix-cors = { workspace = true }
+actix-governor = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = { workspace = true }
+dotenvy = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+utoipa = { workspace = true }

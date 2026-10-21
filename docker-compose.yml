@@ -1,0 +1,50 @@
+# master-api — one container, eleven services.
+#
+#   docker compose up -d          # build & start
+#   curl localhost:8080/health    # verify
+#
+# Every knob is an environment variable (12-factor); see .env.example for the
+# full catalogue. Defaults work out of the box — no key is required.
+
+services:
+  master-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ghcr.io/zoofam26/master-api:latest
+    container_name: master-api
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      APP_HOST: 0.0.0.0
+      APP_PORT: 8080
+      RUST_LOG: ${RUST_LOG:-info}
+      JSON_LOGS: ${JSON_LOGS:-false}
+      # --- optional keys -----------------------------------------------------
+      YOUTUBE_API_KEY: ${YOUTUBE_API_KEY:-}
+      GOOGLE_BOOKS_API_KEY: ${GOOGLE_BOOKS_API_KEY:-}
+      # --- tuning ------------------------------------------------------------
+      UPSTREAM_TIMEOUT_SECONDS: ${UPSTREAM_TIMEOUT_SECONDS:-15}
+      UPSTREAM_MAX_RETRIES: ${UPSTREAM_MAX_RETRIES:-1}
+      CACHE_TTL_SECONDS: ${CACHE_TTL_SECONDS:-300}
+      RATE_LIMIT_PER_MINUTE: ${RATE_LIMIT_PER_MINUTE:-600}
+      CORS_ORIGIN: ${CORS_ORIGIN:-*}
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
