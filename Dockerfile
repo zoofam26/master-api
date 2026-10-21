@@ -1,5 +1,7 @@
 # ---- build stage ------------------------------------------------------------
-FROM rust:1.83-slim AS builder
+# Latest stable Rust: crates.io dependencies in Cargo.lock (e.g. crypto-common
+# 0.2) use edition2024, which needs cargo >= 1.85.
+FROM rust:1-slim-bookworm AS builder
 
 WORKDIR /build
 
@@ -22,10 +24,9 @@ COPY crates/app/Cargo.toml crates/app/Cargo.toml
 
 # Stub every source file so `cargo build` can materialise the dependency
 # graph; the real sources are copied over them afterwards.
-RUN mkdir -p crates/common/src crates/app/src && \
-    for c in common youtube books countries currency earthquake ip_geolocation \
+RUN for c in common youtube books countries currency earthquake ip_geolocation \
              postal_code public_holidays transit university weather app; do \
-      echo "" > crates/$c/src/lib.rs; \
+      mkdir -p "crates/$c/src" && echo "" > "crates/$c/src/lib.rs"; \
     done && \
     echo 'fn main() {}' > crates/app/src/main.rs && \
     cargo build --release --workspace && \
